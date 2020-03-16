@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "may": "./packages/.bin/may-cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lianlilin/may-cli.git"
@@ -19,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/lianlilin/may-cli/issues"
   },
-  "homepage": "https://github.com/lianlilin/may-cli#readme"
+  "homepage": "https://github.com/lianlilin/may-cli#readme",
+  "dependencies": {
+    "commander": "^5.0.0",
+    "inquirer": "^7.1.0",
+    "ncp": "^2.0.0",
+    "pacote": "^11.1.4",
+    "shelljs": "^0.8.3"
+  }
 }
