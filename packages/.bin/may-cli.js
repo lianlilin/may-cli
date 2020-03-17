@@ -6,7 +6,7 @@
 
 const inquirer = require('inquirer');
 const pacote = require('pacote');
-const packageName = 'may-templates-demo';
+const packageName = 'may-templates-demoqq';
 const program = require('commander');
 const version = require('../../package').version;
 const ncp = require('ncp');
@@ -14,6 +14,9 @@ const cacheDir = 'mayCache';
 const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
+const ora = require('ora');
+const spinner = ora();
 let userQuestions = [
     {
         type: 'input',
@@ -53,19 +56,24 @@ program
 .action(() => {
     inquirer.prompt(userQuestions)
     .then(answers => {
+        spinner.start('Start download template');
         return pacote.extract(packageName, './mayCache', {
             cache: false
         }).then(() => {
+            spinner.succeed('Download template succeed');
             return answers;
         });
     })
     .then(answers => {
         return new Promise((resolve, reject) => {
+            spinner.start('Start copy template');
             ncp(cacheDir, answers.projectName, err => {
                 if (err) {
+                    spinner.fail('Copy copy failed');
                     reject(err);
                 } else {
                     shell.rm('-rf', cacheDir);
+                    spinner.succeed('Copy template succeed');
                     resolve(answers);
                 }
             });
@@ -98,6 +106,22 @@ program
         .toString()
         .replace('PROJECT_DESCRIPTION', answers.projectDescription);
         fs.writeFileSync(readmePath, data);
+        return answers;
+    })
+    .then(answers => {
+        console.log(chalk.green('\nCreated an project'));
+        console.log(
+            `\n you can: ${chalk.green(
+                `cd ${answers.projectName}`
+            )} && ${chalk.green(
+                'npm i \n'
+            )}`
+        );
+    })
+    .catch(err => {
+        console.warn(chalk.red('\n [error]'));
+        spinner.fail(chalk.red(err.toString()));
+        console.log(err);
     });
 });
 program.parse(process.argv);

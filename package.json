@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/lianlilin/may-cli#readme",
   "dependencies": {
+    "chalk": "^3.0.0",
     "commander": "^5.0.0",
     "inquirer": "^7.1.0",
     "ncp": "^2.0.0",
+    "ora": "^4.0.3",
     "pacote": "^11.1.4",
     "shelljs": "^0.8.3"
   }
